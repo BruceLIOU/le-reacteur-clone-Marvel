@@ -37,7 +37,8 @@ library.add(
   faHeart
 );
 
-const apiUrl = "http://localhost:3001";
+/* const apiUrl = "http://localhost:3001"; */
+const apiUrl = "https://clone-marvel-backend.herokuapp.com";
 
 const App = () => {
   return (
