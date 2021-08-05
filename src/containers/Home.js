@@ -1,92 +1,42 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import spiderman from "../assets/img/spider-man.png";
+import shangchi from "../assets/img/shangchi.png";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
 import Loader from "../components/Loader";
 
-const Home = ({ apiUrl, data, setData, limit, setLimit, page, setPage }) => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${apiUrl}/offers?sort=price-asc&page=1&limit=10`
-        );
-        setData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchData();
-  }, [setData, apiUrl]);
-
+const Home = () => {
+  const [isLoading] = useState(false);
   return isLoading ? (
     <Loader />
   ) : (
-    <div className="container">
-      <div className="offer-list">
-        {data.offers ? (
-          data.offers.map((offer) => {
-            return <OfferCard offer={offer} key={offer._id} />;
-          })
-        ) : (
-          <div className="loading-message">
-            Aucun résultat pour votre recherche.
-          </div>
-        )}
+    <div className="home-container">
+      <div className="home-description">
+        Marvel Entertainment, LLC, a wholly-owned subsidiary of The Walt Disney
+        Company, is one of the world's most prominent character-based
+        entertainment companies, built on a proven library of more than 8,000
+        characters featured in a variety of media over seventy-five years.
+        Marvel utilizes its character franchises in entertainment, licensing and
+        publishing. For more information visit marvel.com. © 2020 MARVEL
       </div>
 
-      <div className="page-nav">
-        {page > 1 && (
-          <div
-            className="nav-left"
-            onClick={() => {
-              setPage(page - 1);
-            }}
-          >
-            <FontAwesomeIcon icon="caret-left" />
-          </div>
-        )}
-        <div className="numberPage">{page}</div>
-        {page * limit < data.count && (
-          <div
-            className="nav-right"
-            onClick={() => {
-              setPage(page + 1);
-            }}
-          >
-            <FontAwesomeIcon icon="caret-right" />
-          </div>
-        )}
-      </div>
-      <div className="product-limit">
-        Résultats par page :
-        <span
-          onClick={() => {
-            setLimit(10);
-            //console.log(page);
-          }}
-        >
-          [10]
-        </span>
-        <span
-          onClick={() => {
-            setLimit(25);
-            //console.log(page);
-          }}
-        >
-          [25]
-        </span>
-        <span
-          onClick={() => {
-            setLimit(50);
-          }}
-        >
-          [50]
-        </span>
-      </div>
+      <Carousel
+        autoPlay={true}
+        showThumbs={false}
+        autoFocus={true}
+        showStatus={false}
+        className="home-carousel"
+      >
+        <div>
+          <img src={spiderman} alt="SpiderMan" />
+          <p className="legend">SpiderMan</p>
+        </div>
+        <div>
+          <img src={shangchi} alt="Shangchi" />
+          <p className="legend">Shangchi</p>
+        </div>
+      </Carousel>
     </div>
   );
 };

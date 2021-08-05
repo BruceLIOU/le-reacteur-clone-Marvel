@@ -1,37 +1,80 @@
 import { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import SearchFilters from "./SearchFilters";
+import { Link, useLocation } from "react-router-dom";
+/* import SearchFilters from "./SearchFilters"; */
 import logo from "../assets/img/logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import LoginModal from "./modals/LoginModal";
+import SignUpModal from "./modals/SignUpModal";
+
+import SwitchSort from "./SwitchSort";
 
 const Header = () => {
+  const location = useLocation();
+
+  const [searchInput, setSearchInput] = useState("");
+  const [hideLoginModal, setHideLoginModal] = useState(true);
+  const [hideSignUpModal, setHideSignUpModal] = useState(true);
+  const [sort, setSort] = useState("title-desc");
+
   return (
     <div className="header">
       <div className="logo">
-        <img src="./assets/img/logo.png" alt="" />
+        <div className="credentials">
+          <Link
+            to="/signup"
+            onClick={() => {
+              setHideSignUpModal(false);
+            }}
+          >
+            SignUp
+          </Link>
+          <Link
+            to="/login"
+            onClick={() => {
+              setHideLoginModal(false);
+            }}
+          >
+            Login
+          </Link>
+        </div>
+        <Link to="/">
+          <img src={logo} alt="Marvel logo" />
+        </Link>
       </div>
+
       <div className="nav">
         <ul>
-          <li>
-            <a href="/characters" rel="noreferrer">
-              Characters
-            </a>
-          </li>
-          <li>
-            <a href="/comics" rel="noreferrer">
-              Comics
-            </a>
-          </li>
-          <li>
-            <a href="/favorites" rel="noreferrer">
-              Favorites
-            </a>
-          </li>
+          <Link to="/characters">Characters</Link>
+          <Link to="/comics">Comics</Link>
+          <Link to="/favorites">Favorites</Link>
         </ul>
-        <div className="credentials">
-          <button className="login">Login</button>
-          <button className="login">Subscribe</button>
+
+        <div className="search-bar-container">
+          <div className="search-bar">
+            <FontAwesomeIcon icon="search" />
+            <input
+              type="search"
+              placeholder="Search anything"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+            />
+          </div>
+          {location.pathname !== "/" && (
+            <div className="sort">
+              <SwitchSort sort={sort} setSort={setSort} />
+            </div>
+          )}
         </div>
       </div>
+      <LoginModal
+        hideLoginModal={hideLoginModal}
+        setHideLoginModal={setHideLoginModal}
+      />
+      <SignUpModal
+        hideSignUpModal={hideSignUpModal}
+        setHideSignUpModal={setHideSignUpModal}
+      />
     </div>
   );
 };
