@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import Loader from "../components/Loader";
 
@@ -11,13 +11,15 @@ const Characters = ({ value, userToken, apiUrl }) => {
   const [favorite, setFavorite] = useState(false);
   const [pagination, setPagination] = useState({ skip: 0, limit: 10 });
 
+  const history = useHistory();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `${apiUrl}/characters?skip=${pagination.skip}&limit=${pagination.limit}&name=${value}`
         );
-        // console.log(response.data);
+        //console.log(response.data);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -26,35 +28,40 @@ const Characters = ({ value, userToken, apiUrl }) => {
     };
     fetchData();
   }, [pagination.skip, pagination.limit, value, apiUrl]);
+
   return isLoading ? (
     <Loader />
   ) : (
     <div className="characters-container">
       {data.results.map((character) => {
         return (
-          <Link to={`/comics/${character._id}`} key={character._id}>
-            <div className="thumbnail">
-              <img
-                src={
-                  character.thumbnail.path + "." + character.thumbnail.extension
-                }
-                alt={character.name}
+          <div
+            className="thumbnail"
+            key={character._id}
+            onClick={() => {
+              history.push(`/comics/${character._id}`);
+            }}
+          >
+            <img
+              src={
+                character.thumbnail.path + "." + character.thumbnail.extension
+              }
+              alt={character.name}
+            />
+            <div className="icon-favorite">
+              <FontAwesomeIcon
+                icon="heart"
+                title="Add your favorite"
+                onClick={() => {
+                  setFavorite(true);
+                }}
               />
-              <div className="icon-favorite">
-                <FontAwesomeIcon
-                  icon="heart"
-                  title="Add your favorite"
-                  onClick={() => {
-                    setFavorite(true);
-                  }}
-                />
-              </div>
-              <div className="title">{character.name}</div>
-              <div className="middle">
-                <div className="description">{character.description}</div>
-              </div>
             </div>
-          </Link>
+            <div className="title">{character.name}</div>
+            <div className="middle">
+              <div className="description">{character.description}</div>
+            </div>
+          </div>
         );
       })}
       <div className="pagination">

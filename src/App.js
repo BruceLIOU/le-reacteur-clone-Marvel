@@ -80,7 +80,7 @@ const App = () => {
             <Comics value={value} apiUrl={apiUrl} />
           </Route>
           <Route path="/characters">
-            <Characters apiUrl={apiUrl} />
+            <Characters value={value} apiUrl={apiUrl} />
           </Route>
           <Route path="/favorites">
             <Favorites currentUser={currentUser} apiUrl={apiUrl} />
