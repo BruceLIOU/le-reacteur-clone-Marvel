@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 /* import SearchFilters from "./SearchFilters"; */
 import logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,8 @@ import SignUpModal from "./modals/SignUpModal";
 
 import SwitchSort from "./SwitchSort";
 
-const Header = () => {
+const Header = ({ apiUrl, currentUser, userToken, setData, limit, page }) => {
+  const history = useHistory();
   const location = useLocation();
 
   const [searchInput, setSearchInput] = useState("");
@@ -21,22 +22,36 @@ const Header = () => {
     <div className="header">
       <div className="logo">
         <div className="credentials">
-          <Link
-            to="/signup"
-            onClick={() => {
-              setHideSignUpModal(false);
-            }}
-          >
-            SignUp
-          </Link>
-          <Link
-            to="/login"
-            onClick={() => {
-              setHideLoginModal(false);
-            }}
-          >
-            Login
-          </Link>
+          {!userToken && location.pathname !== "/signup" && (
+            <Link
+              to="/signup"
+              onClick={() => {
+                setHideSignUpModal(false);
+              }}
+            >
+              SignUp
+            </Link>
+          )}
+          {userToken ? (
+            <Link
+              to="/logout"
+              onClick={() => {
+                currentUser(null);
+                history.push("/");
+              }}
+            >
+              Logout
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => {
+                setHideLoginModal(false);
+              }}
+            >
+              Login
+            </Link>
+          )}
         </div>
         <Link to="/">
           <img src={logo} alt="Marvel logo" />
@@ -69,11 +84,15 @@ const Header = () => {
       </div>
       <LoginModal
         hideLoginModal={hideLoginModal}
+        currentUser={currentUser}
         setHideLoginModal={setHideLoginModal}
+        apiUrl={apiUrl}
       />
       <SignUpModal
         hideSignUpModal={hideSignUpModal}
+        currentUser={currentUser}
         setHideSignUpModal={setHideSignUpModal}
+        apiUrl={apiUrl}
       />
     </div>
   );

@@ -3,6 +3,8 @@ import "./assets/css/App.scss";
 
 // import Component/Package React
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useState } from "react";
+import Cookies from "js-cookie";
 
 // Import containers first
 import Home from "./containers/Home";
@@ -41,28 +43,50 @@ library.add(
 const apiUrl = "https://clone-marvel-backend.herokuapp.com";
 
 const App = () => {
+  const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
+  const [value, setValue] = useState("");
+
+  const currentUser = (token) => {
+    if (token) {
+      Cookies.set("userToken", token, {
+        expires: 365, // expires : 1 year
+        sameSite: "none",
+        secure: true,
+      });
+      setUserToken(token);
+    } else {
+      Cookies.remove("userToken");
+      setUserToken(null);
+    }
+  };
+
   return (
     <div className="container">
       <Router>
-        <Header />
+        <Header
+          userToken={userToken}
+          currentUser={currentUser}
+          setValue={setValue}
+          apiUrl={apiUrl}
+        />
         <Switch>
           <Route path="/signup">
-            <Signup />
+            <Signup currentUser={currentUser} apiUrl={apiUrl} />
           </Route>
           <Route path="/login">
-            <Login />
+            <Login currentUser={currentUser} apiUrl={apiUrl} />
           </Route>
           <Route path="/comics">
-            <Comics apiUrl={apiUrl} />
+            <Comics value={value} apiUrl={apiUrl} />
           </Route>
           <Route path="/characters">
             <Characters apiUrl={apiUrl} />
           </Route>
           <Route path="/favorites">
-            <Favorites />
+            <Favorites currentUser={currentUser} apiUrl={apiUrl} />
           </Route>
           <Route path="/">
-            <Home />
+            <Home value={value} setData={setValue} apiUrl={apiUrl} />
           </Route>
         </Switch>
         <Footer />
