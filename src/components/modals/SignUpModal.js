@@ -2,7 +2,6 @@
 import axios from "axios";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 // import FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +15,8 @@ const SignUpModal = ({
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState();
+  const [successMessage, setSuccessMessage] = useState();
 
   const handleSubmit = async (event) => {
     try {
@@ -26,9 +27,18 @@ const SignUpModal = ({
         password: inputPassword,
       });
       setUser(response.data.token);
-      setHideSignUpModal(true);
+      setSuccessMessage(true);
+
+      setTimeout(() => {
+        setHideSignUpModal(true);
+      }, 3000);
+
+      setErrorMessage(false);
     } catch (error) {
-      console.log(error);
+      if (error.message === "Request failed with status code 409") {
+        setErrorMessage(true);
+      }
+      console.log(error.message);
     }
   };
 
@@ -77,6 +87,26 @@ const SignUpModal = ({
             }}
             required
           />
+          {errorMessage === true && (
+            <span
+              style={{
+                color: "red",
+                marginBottom: "10px",
+              }}
+            >
+              An account already exist !
+            </span>
+          )}
+          {successMessage === true && (
+            <span
+              style={{
+                color: "green",
+                marginBottom: "10px",
+              }}
+            >
+              Congratulations !
+            </span>
+          )}
           <button
             className="btn red-btn"
             type="submit"
