@@ -4,11 +4,17 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import LoginModal from "./modals/LoginModal";
+import SignUpModal from "./modals/SignUpModal";
+
 import SwitchSort from "./SwitchSort";
 
-const Header = ({ modal, setModal, userToken, setUser }) => {
+const Header = ({ apiUrl, userToken, setUser }) => {
   const [searchInput, setSearchInput] = useState("");
   const [sort, setSort] = useState("title-desc");
+
+  const [hideLoginModal, setHideLoginModal] = useState(true);
+  const [hideSignUpModal, setHideSignUpModal] = useState(true);
 
   const location = useLocation();
   const history = useHistory();
@@ -17,23 +23,40 @@ const Header = ({ modal, setModal, userToken, setUser }) => {
     <div className="header">
       <div className="logo">
         <div className="credentials">
-          {userToken === null ? (
-            <button
+          {!userToken && (
+            // Not displayed to logged in users and on sign up page
+            <div
+              className="btn white-btn"
               onClick={() => {
-                setModal(!modal);
+                setHideSignUpModal(false);
               }}
             >
-              REGISTER / LOGIN
-            </button>
-          ) : (
-            <button
+              REGISTER
+            </div>
+          )}
+          {userToken ? (
+            // Displayed when user is logged in
+            <div
+              className="btn red-btn logout"
               onClick={() => {
                 setUser(null);
                 history.push("/");
               }}
             >
               LOGOUT
-            </button>
+            </div>
+          ) : (
+            // Displayed when user isn't logged in and not on login page
+            location.pathname !== "/login" && (
+              <div
+                className="btn white-btn"
+                onClick={() => {
+                  setHideLoginModal(false);
+                }}
+              >
+                LOGIN
+              </div>
+            )
           )}
         </div>
         <Link to="/">
@@ -65,6 +88,18 @@ const Header = ({ modal, setModal, userToken, setUser }) => {
           )}
         </div>
       </div>
+      <LoginModal
+        hideLoginModal={hideLoginModal}
+        setUser={setUser}
+        setHideLoginModal={setHideLoginModal}
+        apiUrl={apiUrl}
+      />
+      <SignUpModal
+        hideSignUpModal={hideSignUpModal}
+        setUser={setUser}
+        setHideSignUpModal={setHideSignUpModal}
+        apiUrl={apiUrl}
+      />
     </div>
   );
 };

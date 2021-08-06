@@ -64,7 +64,8 @@ body {
   background-color: $color-black;
   color: $color-white;
 }
-.red-btn {
+/* BUTTONS */
+.btn {
   height: 35px;
   display: flex;
   justify-content: center;
@@ -72,11 +73,15 @@ body {
   border-radius: 5px;
   font-size: 16px;
   font-weight: 300;
+}
+.red-btn {
   border: 1px solid $color-red;
   color: #fff;
   font-family: inherit;
   background-color: $color-red;
   cursor: pointer;
+  width: auto;
+
   &:hover {
     background-color: #740e0e;
   }
@@ -84,7 +89,25 @@ body {
     outline: none;
   }
 }
+.logout {
+  padding: 2px 12px;
+}
 
+.white-btn {
+  border: 1px solid $color-white;
+  color: $color-white;
+  font-family: inherit;
+  background-color: $color-black;
+  cursor: pointer;
+  padding: 2px 12px;
+  margin: 10px;
+  &:hover {
+    background-color: $color-red;
+  }
+  &:focus {
+    outline: none;
+  }
+}
 /* HEADER */
 .header {
   background-color: $color-black;
@@ -514,7 +537,7 @@ body {
     // Text after the button
     margin-top: 20px;
     font-size: 13px;
-    color: #21adb6;
+    color: $color-black;
     font-weight: 300;
     align-self: center;
   }

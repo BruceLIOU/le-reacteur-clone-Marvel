@@ -1,70 +1,104 @@
 // import packages
 import axios from "axios";
+
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // import FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const LoginModal = ({ hideLoginModal, setHideLoginModal, setUser, apiUrl }) => {
+const SignUpModal = ({
+  apiUrl,
+  hideSignUpModal,
+  setHideSignUpModal,
+  setHideLoginModal,
+  setUser,
+}) => {
+  const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const response = await axios.post(`${apiUrl}/user/login`, {
+      const response = await axios.post(`${apiUrl}/user/signup`, {
+        username: inputUsername,
         email: inputEmail,
         password: inputPassword,
       });
       setUser(response.data.token);
-      setHideLoginModal(true);
+      setHideSignUpModal(true);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
   return (
     <div
       className="modal-container"
-      style={{ display: hideLoginModal ? "none" : "block" }}
+      style={hideSignUpModal ? { display: "none" } : { display: "block" }}
     >
       <section className="login-section">
         <div
           onClick={() => {
-            setHideLoginModal(true);
+            setHideSignUpModal(true);
           }}
         >
           <FontAwesomeIcon icon="times-circle" />
         </div>
-        <h1>LOGIN</h1>
+        <h1>CREATE YOUR ACCOUNT</h1>
         <form onSubmit={handleSubmit}>
           <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={inputUsername}
+            onChange={(event) => {
+              setInputUsername(event.target.value);
+            }}
+            required
+          />
+          <input
             type="email"
-            placeholder="Email"
             name="email"
+            placeholder="Email"
+            value={inputEmail}
             onChange={(event) => {
               setInputEmail(event.target.value);
             }}
+            required
           />
           <input
             type="password"
             name="password"
             placeholder="Password"
+            value={inputPassword}
             onChange={(event) => {
               setInputPassword(event.target.value);
             }}
+            required
           />
           <button
             className="btn red-btn"
             type="submit"
-            onClick={() => setHideLoginModal(true)}
+            onClick={() => setHideSignUpModal(true)}
           >
-            SIGN IN
+            REGISTER
           </button>
         </form>
+        {/*         <Link
+          to="/login"
+          className="link-account"
+          onClick={() => {
+            setHideSignUpModal(true);
+            setHideLoginModal(false);
+          }}
+        >
+          You have an account ? Login !
+        </Link> */}
       </section>
     </div>
   );
 };
 
-export default LoginModal;
+export default SignUpModal;

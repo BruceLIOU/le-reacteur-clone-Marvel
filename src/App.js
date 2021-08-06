@@ -14,7 +14,6 @@ import Favorites from "./containers/Favorites";
 
 // Then import components
 import Header from "./components/Header";
-import Modal from "./components/Modal";
 import Footer from "./components/Footer";
 
 // import Fontawesome
@@ -44,7 +43,6 @@ const apiUrl = "https://clone-marvel-backend.herokuapp.com";
 const App = () => {
   const [userToken, setUserToken] = useState(Cookies.get("userToken") || null);
   const [value, setValue] = useState("");
-  const [modal, setModal] = useState(false);
 
   const setUser = (token) => {
     if (token) {
@@ -64,18 +62,10 @@ const App = () => {
     <div className="container">
       <Router>
         <Header
-          modal={modal}
-          setModal={setModal}
           userToken={userToken}
           setUserToken={setUserToken}
           setValue={setValue}
           apiUrl={apiUrl}
-          setUser={setUser}
-        />
-        <Modal
-          apiUrl={apiUrl}
-          modal={modal}
-          setModal={setModal}
           setUser={setUser}
         />
         <Switch>
