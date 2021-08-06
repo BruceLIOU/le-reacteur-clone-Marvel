@@ -5,9 +5,16 @@ import { useState } from "react";
 // import FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const LoginModal = ({ hideLoginModal, setHideLoginModal, setUser, apiUrl }) => {
+const LoginModal = ({
+  hideLoginModal,
+  setHideLoginModal,
+  setUser,
+  userToken,
+  apiUrl,
+}) => {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState();
 
   const handleSubmit = async (event) => {
     try {
@@ -18,7 +25,9 @@ const LoginModal = ({ hideLoginModal, setHideLoginModal, setUser, apiUrl }) => {
       });
       setUser(response.data.token);
       setHideLoginModal(true);
+      setErrorMessage(false);
     } catch (error) {
+      setErrorMessage(true);
       console.log(error.message);
     }
   };
@@ -54,10 +63,20 @@ const LoginModal = ({ hideLoginModal, setHideLoginModal, setUser, apiUrl }) => {
               setInputPassword(event.target.value);
             }}
           />
+          {errorMessage === true && (
+            <span
+              style={{
+                color: "red",
+                marginBottom: "10px",
+              }}
+            >
+              Email/Password is not correct
+            </span>
+          )}
           <button
             className="btn red-btn"
             type="submit"
-            onClick={() => setHideLoginModal(true)}
+            /* onClick={() => setHideLoginModal(true)} */
           >
             SIGN IN
           </button>

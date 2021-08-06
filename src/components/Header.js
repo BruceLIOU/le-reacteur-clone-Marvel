@@ -93,6 +93,7 @@ const Header = ({ apiUrl, userToken, setUser }) => {
         setUser={setUser}
         setHideLoginModal={setHideLoginModal}
         apiUrl={apiUrl}
+        userToken={userToken}
       />
       <SignUpModal
         hideSignUpModal={hideSignUpModal}

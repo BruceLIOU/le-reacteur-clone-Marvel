@@ -11,7 +11,6 @@ const SignUpModal = ({
   apiUrl,
   hideSignUpModal,
   setHideSignUpModal,
-  setHideLoginModal,
   setUser,
 }) => {
   const [inputUsername, setInputUsername] = useState("");
@@ -81,7 +80,7 @@ const SignUpModal = ({
           <button
             className="btn red-btn"
             type="submit"
-            onClick={() => setHideSignUpModal(true)}
+            /* onClick={() => setHideSignUpModal(true)} */
           >
             REGISTER
           </button>
