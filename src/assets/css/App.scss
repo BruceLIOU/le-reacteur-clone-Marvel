@@ -274,7 +274,7 @@ body {
   flex-direction: row;
   width: 90vw;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   margin: auto;
 
   > .thumbnail {
@@ -367,7 +367,7 @@ body {
   flex-direction: row;
   width: 90vw;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   margin: auto;
 
   > .thumbnail {
@@ -560,6 +560,9 @@ footer {
   display: flex;
   justify-content: center;
   line-height: 80px;
-  align-items: baseline;
+  align-items: center;
   border-top: 1px solid $color-red;
+  > a {
+    color: $color-red;
+  }
 }
