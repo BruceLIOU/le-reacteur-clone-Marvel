@@ -4,53 +4,36 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import LoginModal from "./modals/LoginModal";
-import SignUpModal from "./modals/SignUpModal";
-
 import SwitchSort from "./SwitchSort";
 
-const Header = ({ apiUrl, currentUser, userToken, setData, limit, page }) => {
-  const history = useHistory();
-  const location = useLocation();
-
+const Header = ({ modal, setModal, userToken, setUser }) => {
   const [searchInput, setSearchInput] = useState("");
-  const [hideLoginModal, setHideLoginModal] = useState(true);
-  const [hideSignUpModal, setHideSignUpModal] = useState(true);
   const [sort, setSort] = useState("title-desc");
+
+  const location = useLocation();
+  const history = useHistory();
 
   return (
     <div className="header">
       <div className="logo">
         <div className="credentials">
-          {!userToken && location.pathname !== "/signup" && (
-            <Link
-              to="/signup"
+          {userToken === null ? (
+            <button
               onClick={() => {
-                setHideSignUpModal(false);
+                setModal(!modal);
               }}
             >
-              SignUp
-            </Link>
-          )}
-          {userToken ? (
-            <Link
-              to="/logout"
+              REGISTER / LOGIN
+            </button>
+          ) : (
+            <button
               onClick={() => {
-                currentUser(null);
+                setUser(null);
                 history.push("/");
               }}
             >
-              Logout
-            </Link>
-          ) : (
-            <Link
-              to="/login"
-              onClick={() => {
-                setHideLoginModal(false);
-              }}
-            >
-              Login
-            </Link>
+              LOGOUT
+            </button>
           )}
         </div>
         <Link to="/">
@@ -82,18 +65,6 @@ const Header = ({ apiUrl, currentUser, userToken, setData, limit, page }) => {
           )}
         </div>
       </div>
-      <LoginModal
-        hideLoginModal={hideLoginModal}
-        currentUser={currentUser}
-        setHideLoginModal={setHideLoginModal}
-        apiUrl={apiUrl}
-      />
-      <SignUpModal
-        hideSignUpModal={hideSignUpModal}
-        currentUser={currentUser}
-        setHideSignUpModal={setHideSignUpModal}
-        apiUrl={apiUrl}
-      />
     </div>
   );
 };

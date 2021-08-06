@@ -1,6 +1,5 @@
 // import packages
 import axios from "axios";
-
 import { useState } from "react";
 
 // import FontAwesome
@@ -12,15 +11,14 @@ const LoginModal = ({
   currentUser,
   apiUrl,
 }) => {
-  const [inputEmail, setInputEmail] = useState("");
-  const [inputPassword, setInputPassword] = useState("");
+  const [values, setValues] = useState({});
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
     try {
+      event.preventDefault();
       const response = await axios.post(`${apiUrl}/user/login`, {
-        email: inputEmail,
-        password: inputPassword,
+        email: values.email,
+        password: values.password,
       });
       currentUser(response.data.token);
       setHideLoginModal(true);
@@ -47,20 +45,20 @@ const LoginModal = ({
           <input
             type="email"
             placeholder="Email"
-            value={inputEmail}
             onChange={(event) => {
-              setInputEmail(event.target.value);
+              const obj = { ...values };
+              obj.email = event.target.value;
+              setValues(obj);
             }}
-            required
           />
           <input
             type="password"
             placeholder="Password"
-            value={inputPassword}
             onChange={(event) => {
-              setInputPassword(event.target.value);
+              const obj = { ...values };
+              obj.password = event.target.value;
+              setValues(obj);
             }}
-            required
           />
           <button
             className="red-btn"
