@@ -65,6 +65,7 @@ const App = () => {
         <Header
           userToken={userToken}
           setUserToken={setUserToken}
+          value={value}
           setValue={setValue}
           apiUrl={apiUrl}
           setUser={setUser}

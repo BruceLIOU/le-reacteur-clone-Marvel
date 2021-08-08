@@ -49,7 +49,6 @@ const Characters = ({ value, userToken, apiUrl }) => {
           >
             <div
               className="thumbnail"
-              key={character._id}
               /*               onClick={() => {
                 history.push(`/comics/${character._id}`);
               }} */
@@ -94,7 +93,7 @@ const Characters = ({ value, userToken, apiUrl }) => {
           {pagination.skip === 0 ? 1 : pagination.skip / 10}
         </div>
         <div
-          className="previous"
+          className="next"
           onClick={() => {
             const obj = { ...pagination };
             obj.skip += 10;
