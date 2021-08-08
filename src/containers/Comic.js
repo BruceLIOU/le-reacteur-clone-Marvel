@@ -32,8 +32,7 @@ const Comic = ({ setToken, apiUrl }) => {
   ) : (
     <div className="comics-container">
       <p>
-        Comics with&nbsp;
-        <span>{data.name}</span>
+        Comics with&nbsp;<span>{data.name}</span>
       </p>
       {data.comics &&
         data.comics.map((comic) => {
