@@ -1,64 +1,42 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useHistory } from "react-router-dom";
 
 import Loader from "../components/Loader";
 
-const Characters = ({ value, userToken, apiUrl }) => {
+const Comic = ({ serToken, apiUrl }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
   const [pagination, setPagination] = useState({ skip: 0, limit: 10 });
-  const [count, setCount] = useState(0);
 
-  const history = useHistory();
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${apiUrl}/characters?skip=${pagination.skip}&limit=${pagination.limit}&name=${value}`
-        );
-        //console.log(response.data);
+        const response = await axios.get(`${apiUrl}/comics/${id}`);
         setData(response.data);
-        setCount(response.data.count);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchData();
-  }, [pagination.skip, pagination.limit, value, apiUrl, count]);
-
+  }, [id, apiUrl]);
   return isLoading ? (
     <Loader />
   ) : (
-    <div className="characters-container">
-      {data.results.map((character) => {
-        return (
-          <Link
-            key={character._id}
-            to={{
-              pathname: `/comic/${character._id}`,
-              state: {
-                comics: character.comics,
-                id: character._id,
-              },
-            }}
-          >
-            <div
-              className="thumbnail"
-              key={character._id}
-              /*               onClick={() => {
-                history.push(`/comics/${character._id}`);
-              }} */
-            >
+    <div className="comics-container">
+      {/* <p>{data.name}</p> */}
+      {data.comics &&
+        data.comics.map((comic) => {
+          return (
+            <div className="thumbnail" key={comic._id}>
               <img
-                src={
-                  character.thumbnail.path + "." + character.thumbnail.extension
-                }
-                alt={character.name}
+                src={comic.thumbnail.path + "." + comic.thumbnail.extension}
+                alt={comic.name}
               />
               <div className="icon-favorite">
                 <FontAwesomeIcon
@@ -69,14 +47,13 @@ const Characters = ({ value, userToken, apiUrl }) => {
                   }}
                 />
               </div>
-              <div className="title">{character.name}</div>
+              <div className="title">{comic.title}</div>
               <div className="middle">
-                <div className="description">{character.description}</div>
+                <div className="description">{comic.description}</div>
               </div>
             </div>
-          </Link>
-        );
-      })}
+          );
+        })}
       <div className="pagination">
         {pagination.skip >= 10 && (
           <div
@@ -108,4 +85,4 @@ const Characters = ({ value, userToken, apiUrl }) => {
   );
 };
 
-export default Characters;
+export default Comic;

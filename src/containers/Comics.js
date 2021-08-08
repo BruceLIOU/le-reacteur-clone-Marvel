@@ -8,7 +8,7 @@ const Comics = ({ value, userToken, apiUrl }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
-  const [pagination, setPagination] = useState({ skip: 0, limit: 14 });
+  const [pagination, setPagination] = useState({ skip: 0, limit: 10 });
 
   useEffect(() => {
     const fetchData = async () => {

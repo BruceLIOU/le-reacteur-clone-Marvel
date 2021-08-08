@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import Home from "./containers/Home";
 import Characters from "./containers/Characters";
 import Comics from "./containers/Comics";
+import Comic from "./containers/Comic";
 import Favorites from "./containers/Favorites";
 
 // Then import components
@@ -69,19 +70,19 @@ const App = () => {
           setUser={setUser}
         />
         <Switch>
-          <Route path="/comics">
+          <Route exact path="/comics">
             <Comics value={value} apiUrl={apiUrl} />
           </Route>
-          <Route path="/comics/:id">
-            <Comics value={value} apiUrl={apiUrl} />
+          <Route exact path="/comic/:id">
+            <Comic value={value} apiUrl={apiUrl} />
           </Route>
-          <Route path="/characters">
+          <Route exact path="/characters">
             <Characters value={value} apiUrl={apiUrl} />
           </Route>
-          <Route path="/favorites">
+          <Route exact path="/favorites">
             <Favorites setUser={setUser} apiUrl={apiUrl} />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <Home value={value} setData={setValue} apiUrl={apiUrl} />
           </Route>
         </Switch>
