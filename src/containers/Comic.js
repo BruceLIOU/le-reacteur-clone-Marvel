@@ -37,6 +37,7 @@ const Comic = ({ setToken, apiUrl }) => {
       <p>
         Comics with&nbsp;<span>{data.name}</span>
       </p>
+      {data.count}
       {data.comics &&
         data.comics.map((comic) => {
           return (
@@ -56,7 +57,9 @@ const Comic = ({ setToken, apiUrl }) => {
               </div>
               <div className="title">{comic.title}</div>
               <div className="middle">
-                <div className="description">{comic.description}</div>
+                <div className="description">
+                  {comic.description.substring(0, 400) + "..."}
+                </div>
               </div>
             </div>
           );

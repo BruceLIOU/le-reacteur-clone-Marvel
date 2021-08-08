@@ -60,7 +60,7 @@ const Characters = ({ value, userToken, apiUrl }) => {
       {data.results.map((character) => {
         return (
           <div className="thumbnail" key={character._id}>
-            <Link to={`/comic/${character._id}`}>
+            <Link to={`/comic/${character._id}`} count={count}>
               <img
                 src={
                   character.thumbnail.path + "." + character.thumbnail.extension
@@ -87,7 +87,9 @@ const Characters = ({ value, userToken, apiUrl }) => {
             </div>
             <div className="title">{character.name}</div>
             <div className="middle">
-              <div className="description">{character.description}</div>
+              <div className="description">
+                {character.description.substring(0, 400) + "..."}
+              </div>
             </div>
           </div>
         );
