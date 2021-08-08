@@ -9,8 +9,7 @@ import SignUpModal from "./modals/SignUpModal";
 
 import SwitchSort from "./SwitchSort";
 
-const Header = ({ apiUrl, userToken, setUser }) => {
-  const [searchInput, setSearchInput] = useState("");
+const Header = ({ apiUrl, userToken, setUser, setValue }) => {
   const [sort, setSort] = useState("title-desc");
 
   const [hideLoginModal, setHideLoginModal] = useState(true);
@@ -18,6 +17,11 @@ const Header = ({ apiUrl, userToken, setUser }) => {
 
   const location = useLocation();
   const history = useHistory();
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setValue(value);
+  };
 
   return (
     <div className="header">
@@ -77,8 +81,7 @@ const Header = ({ apiUrl, userToken, setUser }) => {
             <input
               type="search"
               placeholder="Search anything"
-              value={searchInput}
-              onChange={(event) => setSearchInput(event.target.value)}
+              onChange={handleChange}
             />
           </div>
           {location.pathname !== "/" && (

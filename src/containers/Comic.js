@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Loader from "../components/Loader";
+import Pagination from "../components/Pagination";
 
 const Comic = ({ setToken, apiUrl }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [favorite, setFavorite] = useState(false);
-  const [pagination, setPagination] = useState({ skip: 0, limit: 10 });
+  const [favorite, setFavorite] = useState([]);
+  const [pagination, setPagination] = useState({ skip: 0, limit: 100 });
 
   const { id } = useParams();
 
@@ -17,7 +18,6 @@ const Comic = ({ setToken, apiUrl }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${apiUrl}/comics/${id}`);
-        console.log(response);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -27,12 +27,14 @@ const Comic = ({ setToken, apiUrl }) => {
     };
     fetchData();
   }, [id, apiUrl]);
-
   return isLoading ? (
     <Loader />
   ) : (
     <div className="comics-container">
-      {/* <p>{data.name}</p> */}
+      <p>
+        Comics with&nbsp;
+        <span>{data.name}</span>
+      </p>
       {data.comics &&
         data.comics.map((comic) => {
           return (
@@ -57,33 +59,7 @@ const Comic = ({ setToken, apiUrl }) => {
             </div>
           );
         })}
-      <div className="pagination">
-        {pagination.skip >= 10 && (
-          <div
-            className="previous"
-            onClick={() => {
-              const obj = { ...pagination };
-              obj.skip -= 10;
-              setPagination(obj);
-            }}
-          >
-            <FontAwesomeIcon icon="caret-left" />
-          </div>
-        )}
-        <div className="pageNumbers">
-          {pagination.skip === 0 ? 1 : pagination.skip / 10}
-        </div>
-        <div
-          className="previous"
-          onClick={() => {
-            const obj = { ...pagination };
-            obj.skip += 10;
-            setPagination(obj);
-          }}
-        >
-          <FontAwesomeIcon icon="caret-right" />
-        </div>
-      </div>
+      <Pagination pagination={pagination} setPagination={setPagination} />
     </div>
   );
 };

@@ -64,10 +64,7 @@ body {
   background-color: $color-black;
   color: $color-white;
 }
-a {
-  text-decoration: none;
-  color: $color-white;
-}
+
 /* BUTTONS */
 .btn {
   height: 35px;
@@ -281,22 +278,28 @@ a {
   justify-content: space-around;
   margin: auto;
 
-  > a > .thumbnail {
+  > .thumbnail {
     display: flex;
     align-items: center;
     width: 200px;
     height: 300px;
     margin: 30px;
     position: relative;
-
-    > img {
-      height: 100%;
-      max-width: 200px;
-      object-fit: cover;
-      opacity: 1;
-      transition: 0.5s ease;
-      backface-visibility: hidden;
-      /* box-shadow: 2px 2px 12px $color-white; */
+    a {
+      width: 200px;
+      height: 300px;
+      z-index: 1;
+      text-decoration: none;
+      color: $color-white;
+      img {
+        height: 100%;
+        max-width: 200px;
+        object-fit: cover;
+        opacity: 1;
+        transition: 0.5s ease;
+        backface-visibility: hidden;
+        /* box-shadow: 2px 2px 12px $color-white; */
+      }
     }
     > .icon-favorite {
       position: absolute;
@@ -332,6 +335,7 @@ a {
       height: 50px;
       text-align: center;
       color: $color-grey;
+      z-index: 1;
     }
     &:hover img {
       opacity: 0.3;
@@ -373,6 +377,21 @@ a {
   flex-wrap: wrap;
   justify-content: space-around;
   margin: auto;
+  > p:first-child {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 30px;
+    height: 50px;
+    text-transform: uppercase;
+    font-size: 28px;
+    align-items: center;
+    > span {
+      color: $color-red;
+      font-size: 40px;
+      font-weight: 900;
+    }
+  }
 
   > .thumbnail {
     display: flex;
@@ -564,15 +583,16 @@ a {
   display: flex;
   position: absolute;
   margin: 0 auto;
-  grid-gap: 20px;
   gap: 20px;
-  line-height: 100px;
-  top: 135px;
-  height: 45px;
-  flex: 3;
-  flex-wrap: wrap;
+  top: 165px;
   > .previous {
     display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  > .pageNumber {
+    display: flex;
+    height: 50px;
     justify-content: center;
     align-items: center;
   }

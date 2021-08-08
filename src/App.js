@@ -78,7 +78,7 @@ const App = () => {
             <Comic value={value} apiUrl={apiUrl} />
           </Route>
           <Route exact path="/characters">
-            <Characters value={value} apiUrl={apiUrl} />
+            <Characters value={value} userToken={userToken} apiUrl={apiUrl} />
           </Route>
           <Route exact path="/favorites">
             <Favorites setUser={setUser} apiUrl={apiUrl} />

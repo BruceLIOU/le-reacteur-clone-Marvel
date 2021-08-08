@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Loader from "../components/Loader";
+import Pagination from "../components/Pagination";
 
 const Comics = ({ value, userToken, apiUrl }) => {
   const [data, setData] = useState();
@@ -51,33 +52,7 @@ const Comics = ({ value, userToken, apiUrl }) => {
           </div>
         );
       })}
-      <div className="pagination">
-        {pagination.skip >= 10 && (
-          <div
-            className="previous"
-            onClick={() => {
-              const obj = { ...pagination };
-              obj.skip -= 10;
-              setPagination(obj);
-            }}
-          >
-            <FontAwesomeIcon icon="caret-left" />
-          </div>
-        )}
-        <div className="pageNumbers">
-          {pagination.skip === 0 ? 1 : pagination.skip / 10}
-        </div>
-        <div
-          className="previous"
-          onClick={() => {
-            const obj = { ...pagination };
-            obj.skip += 10;
-            setPagination(obj);
-          }}
-        >
-          <FontAwesomeIcon icon="caret-right" />
-        </div>
-      </div>
+      <Pagination pagination={pagination} setPagination={setPagination} />
     </div>
   );
 };
