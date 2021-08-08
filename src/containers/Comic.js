@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Loader from "../components/Loader";
 
-const Comic = ({ serToken, apiUrl }) => {
+const Comic = ({ setToken, apiUrl }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
@@ -17,14 +17,17 @@ const Comic = ({ serToken, apiUrl }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${apiUrl}/comics/${id}`);
+        console.log(response);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
-        console.log(error.message);
+        console.log(error.response);
+        console.log(error);
       }
     };
     fetchData();
   }, [id, apiUrl]);
+
   return isLoading ? (
     <Loader />
   ) : (

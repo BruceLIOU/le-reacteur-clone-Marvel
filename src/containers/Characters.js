@@ -37,16 +37,7 @@ const Characters = ({ value, userToken, apiUrl }) => {
     <div className="characters-container">
       {data.results.map((character) => {
         return (
-          <Link
-            key={character._id}
-            to={{
-              pathname: `/comic/${character._id}`,
-              state: {
-                comics: character.comics,
-                id: character._id,
-              },
-            }}
-          >
+          <Link key={character._id} to={`/comic/${character._id}`}>
             <div
               className="thumbnail"
               /*               onClick={() => {
