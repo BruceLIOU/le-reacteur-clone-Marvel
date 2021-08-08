@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
@@ -10,32 +11,13 @@ const Characters = ({ value, userToken, apiUrl }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({ skip: 0, limit: 100 });
-  const [favorite, setFavorite] = useState([]);
+  const [favorite, setFavorite] = useState(false);
   const [count, setCount] = useState(0);
 
-  const handleAddFav = async (id) => {
-    try {
-      const response = await axios.post(
-        `${apiUrl}/user/addFavorites`,
-        {
-          id: id,
-          token: userToken,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      console.log(response);
-      setFavorite([...favorite, id]);
-    } catch (error) {
-      console.log(error.message);
-    }
-    console.log(favorite);
-  };
-
   useEffect(() => {
+    if (Cookies.get("CharacterFavorite")) {
+      setFavorite(true);
+    }
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -50,7 +32,26 @@ const Characters = ({ value, userToken, apiUrl }) => {
       }
     };
     fetchData();
-  }, [pagination.skip, pagination.limit, value, apiUrl, count]);
+  }, [pagination.skip, pagination.limit, value, apiUrl, count, favorite]);
+
+  const handleAddFav = (name) => {
+    if (userToken) {
+      Cookies.set("CharacterFavorite", name, {
+        expires: 365,
+        sameSite: "none",
+        secure: true,
+      });
+      setFavorite(true);
+    } else {
+      Cookies.remove("CharacterFavorite");
+      setFavorite(false);
+    }
+  };
+
+  const handleRemoveFav = () => {
+    Cookies.remove("CharactersFavorite");
+    setFavorite(false);
+  };
 
   return isLoading ? (
     <Loader />
@@ -68,18 +69,19 @@ const Characters = ({ value, userToken, apiUrl }) => {
               />
             </Link>
             <div className="icon-favorite">
-              {favorite ? (
+              {!favorite ? (
                 <FontAwesomeIcon
                   icon="heart"
                   title="Add your favorite"
                   color="white"
-                  onClick={() => handleAddFav(character)}
+                  onClick={() => handleAddFav(character._id, character.name)}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon="heart"
-                  title="Add your favorite"
+                  title="Remove your favorite"
                   color="red"
+                  onClick={() => handleRemoveFav(character._id, character.name)}
                 />
               )}
             </div>

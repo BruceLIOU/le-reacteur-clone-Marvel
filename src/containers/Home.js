@@ -26,6 +26,7 @@ const Home = () => {
         showThumbs={false}
         autoFocus={true}
         showStatus={false}
+        infiniteLoop={true}
         className="home-carousel"
       >
         <div>

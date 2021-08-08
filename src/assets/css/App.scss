@@ -174,7 +174,7 @@ body {
     height: 50px;
     > .search-bar {
       width: 70vh;
-      margin-right: 50px;
+      /* margin-right: 50px; */
       display: flex;
       align-items: center;
       line-height: 30px;
@@ -254,8 +254,7 @@ body {
   > .home-description {
     display: flex;
     align-items: center;
-    height: 10vh;
-    line-height: 2vh;
+    line-height: 3vh;
     width: 100%;
     text-align: center;
     margin: 20px 0;

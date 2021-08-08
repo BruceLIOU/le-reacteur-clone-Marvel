@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginModal from "./modals/LoginModal";
 import SignUpModal from "./modals/SignUpModal";
 
-import SwitchSort from "./SwitchSort";
+/* import SwitchSort from "./SwitchSort"; */
 
 const Header = ({ apiUrl, userToken, setUser, setValue }) => {
-  const [sort, setSort] = useState("title-desc");
+  /* const [sort, setSort] = useState("title-desc"); */
 
   const [hideLoginModal, setHideLoginModal] = useState(true);
   const [hideSignUpModal, setHideSignUpModal] = useState(true);
@@ -72,24 +72,26 @@ const Header = ({ apiUrl, userToken, setUser, setValue }) => {
         <ul>
           <Link to="/characters">Characters</Link>
           <Link to="/comics">Comics</Link>
-          <Link to="/favorites">Favorites</Link>
+          {userToken && <Link to="/favorites">Favorites</Link>}
         </ul>
-
-        <div className="search-bar-container">
-          <div className="search-bar">
-            <FontAwesomeIcon icon="search" />
-            <input
-              type="search"
-              placeholder="Search anything"
-              onChange={handleChange}
-            />
-          </div>
-          {location.pathname !== "/" && (
-            <div className="sort">
-              <SwitchSort sort={sort} setSort={setSort} />
+        {location.pathname !== "/" && (
+          <div className="search-bar-container">
+            <div className="search-bar">
+              <FontAwesomeIcon icon="search" />
+              <input
+                type="search"
+                placeholder="Search anything"
+                onChange={handleChange}
+              />
             </div>
-          )}
-        </div>
+
+            {/*           {location.pathname !== "/" && (
+            <div className="sort">
+              <SwitchSort setSort={setSort} />
+            </div>
+          )} */}
+          </div>
+        )}
       </div>
       <LoginModal
         hideLoginModal={hideLoginModal}

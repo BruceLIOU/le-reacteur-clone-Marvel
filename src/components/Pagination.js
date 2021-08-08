@@ -8,19 +8,19 @@ const Pagination = ({ pagination, setPagination }) => {
           className="previous"
           onClick={() => {
             const obj = { ...pagination };
-            obj.skip -= 10;
+            obj.skip -= pagination.limit;
             setPagination(obj);
           }}
         >
           <FontAwesomeIcon icon="caret-left" />
         </div>
       )}
-      <div className="pageNumber">{pagination.skip / 10 + 1}</div>
+      <div className="pageNumber">{pagination.skip / pagination.limit + 1}</div>
       <div
         className="next"
         onClick={() => {
           const obj = { ...pagination };
-          obj.skip += 10;
+          obj.skip += pagination.limit;
           setPagination(obj);
         }}
       >
