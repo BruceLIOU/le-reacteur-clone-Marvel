@@ -11,6 +11,7 @@ const Comic = ({ setToken, apiUrl }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [favorite, setFavorite] = useState([]);
   const [pagination, setPagination] = useState({ skip: 0, limit: 100 });
+  const [count, setCount] = useState(0);
 
   const { id } = useParams();
 
@@ -20,6 +21,7 @@ const Comic = ({ setToken, apiUrl }) => {
         const response = await axios.get(`${apiUrl}/comics/${id}`);
         setData(response.data);
         setIsLoading(false);
+        setCount(response.data.count);
       } catch (error) {
         console.log(error.response);
         console.log(error);
@@ -27,6 +29,7 @@ const Comic = ({ setToken, apiUrl }) => {
     };
     fetchData();
   }, [id, apiUrl]);
+
   return isLoading ? (
     <Loader />
   ) : (
@@ -58,7 +61,9 @@ const Comic = ({ setToken, apiUrl }) => {
             </div>
           );
         })}
-      <Pagination pagination={pagination} setPagination={setPagination} />
+      {data.count > 100 && (
+        <Pagination pagination={pagination} setPagination={setPagination} />
+      )}
     </div>
   );
 };

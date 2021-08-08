@@ -9,7 +9,7 @@ const Comics = ({ value, userToken, apiUrl }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
-  const [pagination, setPagination] = useState({ skip: 0, limit: 10 });
+  const [pagination, setPagination] = useState({ skip: 0, limit: 100 });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +52,9 @@ const Comics = ({ value, userToken, apiUrl }) => {
           </div>
         );
       })}
-      <Pagination pagination={pagination} setPagination={setPagination} />
+      {data.count > 100 && (
+        <Pagination pagination={pagination} setPagination={setPagination} />
+      )}
     </div>
   );
 };

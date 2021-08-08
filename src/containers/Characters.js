@@ -92,7 +92,9 @@ const Characters = ({ value, userToken, apiUrl }) => {
           </div>
         );
       })}
-      <Pagination pagination={pagination} setPagination={setPagination} />
+      {data.count > 100 && (
+        <Pagination pagination={pagination} setPagination={setPagination} />
+      )}
     </div>
   );
 };
