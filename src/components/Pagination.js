@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Pagination = ({ pagination, setPagination }) => {
   return (
     <div className="pagination">
-      {pagination.skip >= 10 && (
+      {pagination.skip >= pagination.limit && (
         <div
           className="previous"
           onClick={() => {
